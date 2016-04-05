@@ -14,11 +14,8 @@ mongoose.connect('mongodb://' + config.db.host + '/' + config.db.name);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/', function(req, res){
-  res.sendFile(path.join(__dirname, 'views/index.html'));
-});
+// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname + '/public'));
 
 app.post('/api/shorten', function(req, res){
   var longUrl = req.body.url;
@@ -70,6 +67,10 @@ app.get('/:encoded_id', function(req, res){
 
 });
 
-var server = app.listen(3001, function(){
+app.get('*', function(req, res){
+  res.sendFile(path.join(__dirname, '/public/index.html'));
+});
+
+var server = app.listen(3001, "172.31.23.196", function(){
   console.log('Server listening on port 3001');
 });
